@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Capturador Social AIEP">
+    <meta name="author" content="Ricardo Diaz">
+    <meta name="keywords" content="Capturador Social, AIEP, Servicios Sociales">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+    <title>CAPTURADOR SOCIAL - CLIENTES</title>
+</head>
+<body>
+
+    <div class="body-section">
+        <main class="d-flex flex-nowrap main-index aside only-desktop">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark w-280">
+                <a href="login.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <img src="/assets/images/logo.png" alt="Logo" class="icon-login-sidebar mb-4 logo-sidebar">
+                    <span class="fs-4 pb-2">Capturador Social</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+                        Inicio
+                    </a>
+                    </li>
+                    <li>
+                    <a href="dashboard.html" class="nav-link text-white">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        Dashboard
+                    </a>
+                    </li>
+                    <li>
+                    <a href="clientes.html" class="nav-link active" aria-current="page">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+                        Clientes
+                    </a>
+                    </li>
+                </ul>
+                <hr>
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/assets/images/default-avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Admin</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="#">Configuración</a></li>
+                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item log-out" href="#">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <section class="info-section">
+            <header class="p-2 text-bg-dark">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large">
+                    <div class="container-fluid">
+                        <a href="login.html" class="d-flex align-items-center mb-1 mb-md-0 me-md-auto text-white text-decoration-none only-mobile">
+                            <img src="/assets/images/logo.png" alt="Logo" class="logo-navbar mt-1">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasNavbar2Label">CAPTURADOR SOCIAL</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body justify-content-end">
+                                <div class="dropdown text-end drop-right">
+                                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="/assets/images/default-avatar.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                        <li><a class="dropdown-item" href="#">Configuración</a></li>
+                                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item log-out" href="#">Cerrar Sesión</a></li>
+                                    </ul>
+                                </div>
+                
+                                <form class="col col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                                    <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Buscar..." aria-label="Search">
+                                </form>
+
+                                <ul class="navbar-nav pe-3 only-mobile">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Link</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            <!----Tabla Section---->
+            <div class="table-container mt-4">
+                <div class="d-flex gap-2 justify-content-end pt-1 pb-3">
+                    <button class="btn btn-primary d-inline-flex align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#crearFicha">
+                        Crear
+                    </button>
+
+                    <button class="btn btn-outline-secondary d-inline-flex align-items-center eliminar-toda-tabla" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar todos los datos de la tabla" type="button">
+                        Eliminar
+                    </button>
+                </div>
+
+                <div class="card p-4 my-4">
+                    <table class="table table-striped w-100 table-hover my-3" id="fichas_table">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">#</th>
+                                <th scope="col">Rut</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Comuna</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Dirección</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <footer class="footer mt-auto py-3">
+                <span class="text-body-secondary">
+                    Capturador Social AIEP © 2024 - Hecho con ❤️ por Ricardo Diaz.
+                </span>
+            </footer>           
+        </section>
+    </div>
+
+    <!-- Modal Crear Ficha -->
+    <div class="modal fade" id="crearFicha" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearFichaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="form-crear-ficha">    
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="crearFichaLabel">Ingresar Ficha</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nombre" class="col-form-label">Nombre:</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" maxlength="50" minlength="5" oninput="this.value = this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="apellido" class="col-form-label">Apellido:</label>
+                                    <input type="text" class="form-control" id="apellido" name="apellido" maxlength="50" minlength="2" oninput="this.value = this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="rut" class="col-form-label">Rut:</label>
+                                    <input type="text" class="form-control" id="rut" name="rut" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="fecha_naci" class="col-form-label">Fecha Nacimiento:</label>
+                                    <input type="date" class="form-control" id="fecha_naci" name="fecha_naci" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="telefono" class="col-form-label">Telefono:</label>
+                                    <input type="number" class="form-control" id="telefono" name="telefono" maxlength="10" placeholder="EJ. 986377907" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="col-form-label">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" size="30" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="comuna" class="col-form-label">Comuna:</label>
+                                    <select class="form-select" aria-label="Comunas de Chile" id="comuna" name="comuna" required>
+                                        <option value="">Selecciona una comuna</option>
+                                        <option value="Santiago">Santiago</option>
+                                        <option value="Providencia">Providencia</option>
+                                        <option value="Las Condes">Las Condes</option>
+                                        <option value="Lo Barnechea">Lo Barnechea</option>
+                                        <option value="Vitacura">Vitacura</option>
+                                        <option value="Ñuñoa">Ñuñoa</option>
+                                        <option value="La Reina">La Reina</option>
+                                        <option value="Peñalolén">Peñalolén</option>
+                                        <option value="Macul">Macul</option>
+                                        <option value="Puente Alto">Puente Alto</option>
+                                        <option value="Maipú">Maipú</option>
+                                        <option value="La Florida">La Florida</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="direccion" class="col-form-label">Dirección:</label>
+                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="form-label ml-2">Sexo:</span>
+                                <br>
+                                <div class="d-flex justify-content-between mt-2 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="femenino" id="femenino">
+                                        <label class="form-check-label" for="femenino">
+                                            Femenino
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="masculino" id="masculino">
+                                        <label class="form-check-label" for="masculino">
+                                            Masculino
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="otro" id="otro">
+                                        <label class="form-check-label" for="otro">
+                                            Otro
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="anos_experiencia" class="col-form-label">Años Experiencia:</label>
+                                    <input type="number" class="form-control" id="anos_experiencia" name="anos_experiencia" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="altura" class="form-label" id="alturaMostrada">Altura: 0 cm</label>
+                            <input type="range" class="form-range" min="0" max="210" step="1" value="0" id="altura" oninput="mostrarAltura(this.value)" required>
+                            <input type="hidden" id="altura_hidden" name="altura" value="0">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="educacion_basica" class="col-form-label">Educación Básica:</label>
+                                    <select class="form-select" aria-label="Educación Basica Select" id="educacion_basica" name="educacion_basica" required>
+                                        <option value="">Selecciona un grado</option>
+                                        <option value="1">1° Básico</option>
+                                        <option value="2">2° Básico</option>
+                                        <option value="3">3° Básico</option>
+                                        <option value="4">4° Básico</option>
+                                        <option value="5">5° Básico</option>
+                                        <option value="6">6° Básico</option>
+                                        <option value="7">7° Básico</option>
+                                        <option value="8">8° Básico</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="educacion_media" class="col-form-label">Educación Media:</label>
+                                    <select class="form-select" aria-label="Educación Media Select" id="educacion_media" name="educacion_media" required>
+                                        <option value="">Selecciona un grado</option>
+                                        <option value="1">1° Medio</option>
+                                        <option value="2">2° Medio</option>
+                                        <option value="3">3° Medio</option>
+                                        <option value="4">4° Medio</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="trabajando" class="col-form-label">Actualmente Trabaja:</label>
+                                    <select class="form-select" aria-label="Esta actualmente trabajando?" id="trabajando" name="trabajando" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="renta_mensual" class="col-form-label">Renta Mensual:</label>
+                                    <input type="number" class="form-control" id="renta_mensual" name="renta_mensual" inputmode="numeric" pattern="\d*" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" id="btn-crear-ficha">Crear</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Ficha -->
+    <div class="modal fade" id="editarFicha" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editarFichaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="form-editar-ficha">
+                    <input type="hidden" id="editar-ficha-id" name="editar-ficha-id">    
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editarFichaLabel"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-nombre" class="col-form-label">Nombre:</label>
+                                    <input type="text" class="form-control" id="editar-nombre" name="editar-nombre" maxlength="50" minlength="5" oninput="this.value = this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-apellido" class="col-form-label">Apellido:</label>
+                                    <input type="text" class="form-control" id="editar-apellido" name="editar-apellido" maxlength="50" minlength="2" oninput="this.value = this.value.toUpperCase();" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-rut" class="col-form-label">Rut:</label>
+                                    <input type="text" class="form-control" id="editar-rut" name="editar-rut" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar_fecha_naci" class="col-form-label">Fecha Nacimiento:</label>
+                                    <input type="date" class="form-control" id="editar_fecha_naci" name="editar_fecha_naci" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-telefono" class="col-form-label">Telefono:</label>
+                                    <input type="number" class="form-control" id="editar-telefono" name="editar-telefono" maxlength="10" placeholder="EJ. 986377907" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-email" class="col-form-label">Email:</label>
+                                    <input type="email" class="form-control" id="editar-email" name="editar-email" size="30" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-comuna" class="col-form-label">Comuna:</label>
+                                    <select class="form-select" aria-label="Comunas de Chile" id="editar-comuna" name="editar-comuna" required>
+                                        <option value="">Selecciona una comuna</option>
+                                        <option value="Santiago">Santiago</option>
+                                        <option value="Providencia">Providencia</option>
+                                        <option value="Las Condes">Las Condes</option>
+                                        <option value="Lo Barnechea">Lo Barnechea</option>
+                                        <option value="Vitacura">Vitacura</option>
+                                        <option value="Ñuñoa">Ñuñoa</option>
+                                        <option value="La Reina">La Reina</option>
+                                        <option value="Peñalolén">Peñalolén</option>
+                                        <option value="Macul">Macul</option>
+                                        <option value="Puente Alto">Puente Alto</option>
+                                        <option value="Maipú">Maipú</option>
+                                        <option value="La Florida">La Florida</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-direccion" class="col-form-label">Dirección:</label>
+                                    <input type="text" class="form-control" id="editar-direccion" name="editar-direccion" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="form-label ml-2">Sexo:</span>
+                                <br>
+                                <div class="d-flex justify-content-between mt-2 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="editar-femenino" id="editar-femenino">
+                                        <label class="form-check-label" for="editar-femenino">
+                                            Femenino
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="editar-masculino" id="editar-masculino">
+                                        <label class="form-check-label" for="editar-masculino">
+                                            Masculino
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="editar-otro" id="editar-otro">
+                                        <label class="form-check-label" for="editar-otro">
+                                            Otro
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar_anos_experiencia" class="col-form-label">Años Experiencia:</label>
+                                    <input type="number" class="form-control" id="editar_anos_experiencia" name="editar_anos_experiencia" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editar-altura" class="form-label" id="editarAlturaMostrada">Altura: 0 cm</label>
+                            <input type="range" class="form-range" min="0" max="210" step="1" value="0" id="editar-altura" oninput="mostrarAlturaEditar(this.value)" required>
+                            <input type="hidden" id="editar-altura-hidden" name="editar-altura-hidden" value="0">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar_educacion_basica" class="col-form-label">Educación Básica:</label>
+                                    <select class="form-select" aria-label="Educación Basica Select" id="editar_educacion_basica" name="editar_educacion_basica" required>
+                                        <option value="">Selecciona un grado</option>
+                                        <option value="1">1° Básico</option>
+                                        <option value="2">2° Básico</option>
+                                        <option value="3">3° Básico</option>
+                                        <option value="4">4° Básico</option>
+                                        <option value="5">5° Básico</option>
+                                        <option value="6">6° Básico</option>
+                                        <option value="7">7° Básico</option>
+                                        <option value="8">8° Básico</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar_educacion_media" class="col-form-label">Educación Media:</label>
+                                    <select class="form-select" aria-label="Educación Media Select" id="editar_educacion_media" name="editar_educacion_media" required>
+                                        <option value="">Selecciona un grado</option>
+                                        <option value="1">1° Medio</option>
+                                        <option value="2">2° Medio</option>
+                                        <option value="3">3° Medio</option>
+                                        <option value="4">4° Medio</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar-trabajando" class="col-form-label">Actualmente Trabaja:</label>
+                                    <select class="form-select" aria-label="Esta actualmente trabajando?" id="editar-trabajando" name="editar-trabajando" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editar_renta_mensual" class="col-form-label">Renta Mensual:</label>
+                                    <input type="number" class="form-control" id="editar_renta_mensual" name="editar_renta_mensual" inputmode="numeric" pattern="\d*" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" id="btn-editar-ficha">Editar</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Ver Ficha -->
+    <div class="modal fade" id="verFicha" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="verFichaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="verFichaLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-user"></i> Nombre :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="nombre-apellido"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-address-card"></i> Rut :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-rut"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-envelope"></i> Email :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-email"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-phone"></i> Telefono :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-telefono"></span></li></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-calendar-days"></i> Fecha Nacimiento :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-fecha-naci"></span></li></ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-user-plus"></i> Edad :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-edad"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-person-half-dress"></i> Sexo :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-genero"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-ruler-vertical"></i> Altura :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-altura"></span></li></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-location-dot"></i> Comuna :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-comuna"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-map-location-dot"></i> Dirección :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-direccion"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-location-dot"></i> Estudios Básicos :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-estudios-basicos"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-map-location-dot"></i> Estudios Medios :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-estudios-medios"></span></li></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-calendar-plus"></i> Años Experiencia :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-anos-experiencia"></span></li></ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-person-digging"></i> Esta Trabajando :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-esta-trabajando"></span></li></ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="mb-3 mt-2">
+                                <span class="col-form-label fw-bold"><i class="fa-solid fa-calendar-plus"></i> Renta Mensual :</span>
+                                <ul class="ul-sin-left mt-2"><li><span class="text-center" id="info-renta-mensual"></span></li></ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3"></div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/60c519fcf8.js" crossorigin="anonymous"></script>
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/clientes.js"></script>
+    <script src="/assets/js/lib/jquery.rut.js"></script>
+</body>
+</html>
+
