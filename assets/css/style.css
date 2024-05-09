@@ -1,17 +1,7 @@
-/* GLOBAL STYLES
--------------------------------------------------- */
-/* Padding below the footer and lighter body text */
+/* GLOBAL STYLES*/
+/*-------------------------------------------------- */
+/*Author : Ricardo Diaz*/
 
-/* body {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    color: rgb(var(--bs-tertiary-color-rgb));
-  }
-   */
-  
-  /* CUSTOMIZE THE CAROUSEL
-  -------------------------------------------------- */
-  
 html {
     height: -webkit-fill-available;
 }
@@ -32,10 +22,6 @@ body{
 .main-index{
     min-height: 100%;
 }
-
-/* header{
-    margin-bottom: 2rem;
-} */
 
 .header-clientes{
     margin-bottom: 2rem;
@@ -188,6 +174,8 @@ body{
     margin: 0 auto;
 }
 
+
+/* MEDIA QUERIES */
 @media (max-width: 768px) {
     .body-section{
         display: flex;

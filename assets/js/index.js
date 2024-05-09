@@ -8,7 +8,6 @@ $(document).ready(function() {
 
 });
 
-
 //TODO::Metodo para generar las cards del index con las fichas del localstorage
 function generateCards() {
     let fichas = JSON.parse(localStorage.getItem('fichas'));

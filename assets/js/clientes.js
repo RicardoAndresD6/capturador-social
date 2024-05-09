@@ -183,7 +183,6 @@ $(document).ready(function() {
                     generoSeleccionado = 'Otro';
                 }
 
-                //TODO::NECESITO MANTENER EL EXISTENTE Y CAMBIARLE LOS VALORES
                 let fichasGuardadas = localStorage.getItem('fichas');
 
                 // Si hay fichas almacenadas, convierte la cadena JSON a un array
@@ -296,7 +295,6 @@ $(document).ready(function() {
 
         let fechaNaci = new Date(ficha.fecha_naci);
 
-        // Ajustar la fecha para tener en cuenta la diferencia de zona horaria entre UTC y la zona horaria local
         let diferenciaZonaHoraria = fechaNaci.getTimezoneOffset() * 60 * 1000;
         fechaNaci = new Date(fechaNaci.getTime() + diferenciaZonaHoraria);
 
