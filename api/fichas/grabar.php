@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../config.php';
 
 /**
  * Función para crear una ficha
@@ -9,19 +10,16 @@
 function crear($datos){
 
     // Configuración de la base de datos
-    $servername = "localhost";
-    $username = "root";
-    $password = "27539153RicD6";
-    $database = "capturador_social";
+    global $servername, $username, $password, $database;
     
     $res = [];
 
     // Conexión a la base de datos
-    $mysql = new mysqli($servername, $username, $password, $database);
+    $db_connection = new mysqli($servername, $username, $password, $database);
 
     // Verificar la conexión
-    if ($mysql->connect_errno) {
-        throw new Exception("Falló la conexión a MySQL: " . $mysql->connect_error);
+    if ($db_connection->connect_errno) {
+        throw new Exception("Falló la conexión a MySQL: " . $db_connection->connect_error);
     }
 
     //Datos de la ficha
@@ -44,19 +42,18 @@ function crear($datos){
 
     try {
         // Iniciar transacción
-        $mysql->begin_transaction();
+        $db_connection->begin_transaction();
 
         // Preparar la consulta SQL
-        $stmt = $mysql->prepare("INSERT INTO fichas (rut, nombre, apellido, genero, altura, fecha_naci, telefono, email, edad, direccion, comuna, educacion_basica, educacion_media, renta_mensual, trabajando, anos_experiencia) 
+        $stmt = $db_connection->prepare("INSERT INTO fichas (rut, nombre, apellido, genero, altura, fecha_naci, telefono, email, edad, direccion, comuna, educacion_basica, educacion_media, renta_mensual, trabajando, anos_experiencia) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        // Verificar si la preparación fue exitosa
         if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta: " . $mysql->error);
+            throw new Exception("Error en la preparación de la consulta: " . $db_connection->error);
         }
 
         // Vincular los parámetros
-        $stmt->bind_param("ssssdsisissiidis", 
+        $stmt->bind_param("ssssdsssissiiisi", 
             $rut, $nombre, $apellido, $genero, $altura, $fecha_nacimiento, $telefono, $email, $edad, 
             $direccion, $comuna, $educacion_basica, $educacion_media, $renta_mensual, $trabajando, $anos_experiencia
         );
@@ -66,8 +63,7 @@ function crear($datos){
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         }
 
-        // Confirmar la transacción
-        $mysql->commit();
+        $db_connection->commit();
 
         $res = [
             'status' => 'success',
@@ -76,7 +72,7 @@ function crear($datos){
 
     } catch (Exception $e) {
         // En caso de error, hacer rollback
-        $mysql->rollback();
+        $db_connection->rollback();
 
         $res = [
             'status' => 'error',
@@ -89,7 +85,7 @@ function crear($datos){
         $stmt->close();
     }
 
-    $mysql->close();
+    $db_connection->close();
 
     // Devolver el resultado como JSON
     echo json_encode($res);

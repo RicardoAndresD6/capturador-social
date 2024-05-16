@@ -1,41 +1,97 @@
 <?php
-//Obtenemos los datos de los input
 
+require_once __DIR__ . '/../config.php';
+
+/**
+ * Función para editar una ficha por su id
+ * @Param $id
+ * @Return JSON
+ */
 function editar($datos){
-    var_dump($datos);
-    die();
-    $nombre = mysql_real_escape_string($_POST["nombre"]);
-    $apellido = mysql_real_escape_string($_POST["apellido"]);
-    $edad = mysql_real_escape_string($_POST["edad"]);
 
-    $nombre = "nombre";
-    $apellido = "apellido";
-    $edad = 20;
+    // Configuración de la base de datos
+    global $servername, $username, $password, $database;
 
-    $username = "root";
-    $password = "12345678";
-    $database = "fichas";
+    $res = [];
 
-    $mysqli = new mysqli("localhost", $username, $password, $database);
+    // Conexión a la base de datos
+    $db_connection = new mysqli($servername, $username, $password, $database);
 
-    $query = "INSERT INTO fichas (nombre, apellido, edad)
-                VALUES ('{$nombre}','{$apellido}','{$edad}}')";
+    // Verificar la conexión
+    if ($db_connection->connect_errno) {
+        throw new Exception("Falló la conexión a MySQL: " . $db_connection->connect_error);
+    }
 
-    $mysqli->query($query);
-    $mysqli->close();
+    $id = $datos["id"];
+    $datos = $datos['ficha'];
 
-    //Hacemos las comprobaciones que sean necesarias... (sanitizar los textos para evitar XSS e inyecciones de código, comprobar que la edad sea un número, etc.)
-    //Omitido para la brevededad del código
-    //PERO NO OLVIDES QUE ES ALGO IMPORTANTE.
+    //Datos de la ficha
+    $nombre = $datos['nombre'] ?? '';
+    $apellido = $datos['apellido'] ?? '';
+    $rut = $datos['rut'] ?? '';
+    $genero = $datos['genero'] ?? '';
+    $altura = $datos['altura'] ?? 0;
+    $fecha_nacimiento = $datos['fecha_naci'] ?? '';
+    $telefono = $datos['telefono'] ?? '';
+    $email = $datos['email'] ?? '';
+    $edad = $datos['edad'] ?? 0;
+    $direccion = $datos['direccion'] ?? '';
+    $comuna = $datos['comuna'] ?? '';
+    $educacion_basica = $datos['educacion_basica'] ?? 0;
+    $educacion_media = $datos['educacion_media'] ?? 0;
+    $renta_mensual = $datos['renta_mensual'] ?? 0;
+    $trabajando = $datos['trabajando'] ?? '';
+    $anos_experiencia = $datos['anos_experiencia'] ?? 0;
 
-    //Seteamos el header de "content-type" como "JSON" para que jQuery lo reconozca como tal
-    header('Content-Type: application/json');
-    //Guardamos los datos en un array
+    try {
+        // Iniciar transacción
+        $db_connection->begin_transaction();
+    
+        // Preparar la consulta SQL para UPDATE
+        $stmt = $db_connection->prepare("UPDATE fichas SET rut = ?, nombre = ?, apellido = ?, genero = ?, altura = ?, fecha_naci = ?, telefono = ?, email = ?, edad = ?, direccion = ?, comuna = ?, educacion_basica = ?, educacion_media = ?, renta_mensual = ?, trabajando = ?, anos_experiencia = ? WHERE id = ?");
+    
+        if (!$stmt) {
+            throw new Exception("Error en la preparación de la consulta: " . $db_connection->error);
+        }
+    
+        // Vincular los parámetros
+        $stmt->bind_param("ssssdsssissiiisii", 
+            $rut, $nombre, $apellido, $genero, $altura, $fecha_nacimiento, $telefono, $email, $edad, 
+            $direccion, $comuna, $educacion_basica, $educacion_media, $renta_mensual, $trabajando, $anos_experiencia, $id
+        );
+    
+        // Ejecutar la consulta
+        if (!$stmt->execute()) {
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+        }
+    
+        $db_connection->commit();
+    
+        $res = [
+            'status' => 'success',
+            'message' => '¡Ficha actualizada con éxito!'
+        ];
+    
+    } catch (Exception $e) {
+        // En caso de error, hacer rollback
+        $db_connection->rollback();
+    
+        $res = [
+            'status' => 'error',
+            'message' => '¡Lo Sentimos! Ha ocurrido un error al actualizar la ficha. Por favor, inténtelo de nuevo.',
+            'error' => $e->getMessage() 
+        ];
+    }
+    
+    // Cerrar la declaración y la conexión
+    if ($stmt) {
+        $stmt->close();
+    }
+    
+    $db_connection->close();
+    
+    // Devolver el resultado como JSON
+    echo json_encode($res);
 
-    $datos = array(
-    'estado' => 'ok'
-    );
-    //Devolvemos el array pasado a JSON como objeto
-    echo json_encode($datos, JSON_FORCE_OBJECT);
 }
 ?>

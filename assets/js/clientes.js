@@ -129,15 +129,16 @@ $(document).ready(function() {
                     let data = JSON.parse(response);
 
                     if(data.status == 'success'){
+                        
                         Toast.fire({
                             icon: 'success',
                             title: data.message
                         });
 
                         generateTable();
-                        //Todo::Falta modifcar el generate table con la nueva info
 
-                    }else{
+                    }else if(data.status == 'error'){
+
                         Toast.fire({
                             icon: 'error',
                             title: data.message
@@ -156,24 +157,9 @@ $(document).ready(function() {
                 }
             });
 
-            //Todo::Codigo Antiguo para guardar en el localstorage
-            // let fichasGuardadas = localStorage.getItem('fichas');
-
-            // Si hay fichas almacenadas, convierte la cadena JSON a un array
-            // let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
-            
-            // fichas.push(ficha);
-            
-            // let fichasJson = JSON.stringify(fichas);
-            
-            // Guardar el array de fichas actualizado en el almacenamiento local
-            // localStorage.setItem('fichas', fichasJson);
-            //Todo::Fin del codigo antiguo
-
         }
 
     });
-
 
     //Todo::Metodo para editar ficha
     $('#form-editar-ficha').submit(function(e) {
@@ -215,12 +201,7 @@ $(document).ready(function() {
                     generoSeleccionado = 'Otro';
                 }
 
-                let fichasGuardadas = localStorage.getItem('fichas');
-
-                // Si hay fichas almacenadas, convierte la cadena JSON a un array
-                let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
-
-                fichas[rowId] = {
+                let ficha = {
                     rut: formDataJSON['editar-rut'],
                     nombre: formDataJSON['editar-nombre'],
                     apellido: formDataJSON['editar-apellido'],
@@ -238,20 +219,46 @@ $(document).ready(function() {
                     trabajando: formDataJSON['editar-trabajando'],
                     anos_experiencia: formDataJSON['editar_anos_experiencia'],
                 };
+    
+                let url = 'http://capturador-social.test/api/index.php?action=editar';
 
-                let fichasJson = JSON.stringify(fichas);
+                //AJAX para editar la ficha en la base de datos
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: { id: rowId, ficha: ficha },
+                    success: function(response) {
 
-                // Guardar el array de fichas actualizado en el almacenamiento local
-                localStorage.setItem('fichas', fichasJson);
+                        let data = JSON.parse(response);
 
-                Toast.fire({
-                    icon: 'success',
-                    title: '¡Ficha editada con éxito!'
+                        if(data.status == 'success'){
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.message
+                            });
+
+                            generateTable();
+
+                        }else if(data.status == 'error'){
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message
+                            });
+                        }
+
+                        $('#editarFicha').modal('hide');
+
+                    },error: function(error) {
+                        console.error(error);
+                        Toast.fire({
+                            icon: 'error',
+                            title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al editar la ficha. Por favor, inténtelo de nuevo.'
+                        });
+                    }
+
                 });
-
-                $('#editarFicha').modal('hide');
-
-                generateTable();
 
             }
 
@@ -272,12 +279,44 @@ $(document).ready(function() {
             confirmButtonText: 'Sí, eliminar todas las fichas'
         }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.removeItem('fichas');
-                Toast.fire({
-                    icon: 'success',
-                    title: '¡Todas las fichas han sido eliminadas!'
+
+                let url = 'http://capturador-social.test/api/index.php?action=eliminar_todos';
+
+                //AJAX para eliminar todas las fichas de la base de datos
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    success: function(response) {
+
+                        let data = JSON.parse(response);
+                        
+                        if(data.status == 'success'){
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.message
+                            });
+
+                            generateTable();
+
+                        }else if(data.status == 'error'){
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message
+                            });
+
+                        }
+
+                    },error: function(error) {
+                        console.error(error);
+                        Toast.fire({
+                            icon: 'error',
+                            title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al eliminar todas las fichas. Por favor, inténtelo de nuevo.'
+                        });
+                    }
+
                 });
-                generateTable();
+
             }
         });
 
@@ -318,50 +357,67 @@ $(document).ready(function() {
 
         let rowId = $(this).data('ver');
 
-        let fichasGuardadas = localStorage.getItem('fichas');
+        let url = 'http://capturador-social.test/api/index.php?action=listar';
 
-        // Si hay fichas almacenadas, convierte la cadena JSON a un array
-        let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
+        $.ajax({
+            
+            url: url,
+            type: 'POST',
+            data: { id: rowId },
 
-        let ficha = fichas[rowId];
+            success: function(response) {
 
-        let fechaNaci = new Date(ficha.fecha_naci);
+                let data = JSON.parse(response);
 
-        let diferenciaZonaHoraria = fechaNaci.getTimezoneOffset() * 60 * 1000;
-        fechaNaci = new Date(fechaNaci.getTime() + diferenciaZonaHoraria);
+                let ficha = data[0];
 
-        // Obtener día, mes y año
-        let dia = fechaNaci.getDate().toString().padStart(2, '0'); 
-        let mes = (fechaNaci.getMonth() + 1).toString().padStart(2, '0');
-        let año = fechaNaci.getFullYear();
+                let fechaNaci = new Date(ficha.fecha_naci);
 
-        let fechaNaciFormatted = `${dia}/${mes}/${año}`;
+                let diferenciaZonaHoraria = fechaNaci.getTimezoneOffset() * 60 * 1000;
+                fechaNaci = new Date(fechaNaci.getTime() + diferenciaZonaHoraria);
 
-        let rentaFormatted = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'CLP' }).format(
-            ficha.renta_mensual
-        );
+                // Obtener día, mes y año
+                let dia = fechaNaci.getDate().toString().padStart(2, '0'); 
+                let mes = (fechaNaci.getMonth() + 1).toString().padStart(2, '0');
+                let año = fechaNaci.getFullYear();
 
-        $('#verFichaLabel').text('Información Ficha N° ' + (rowId + 1));
+                let fechaNaciFormatted = `${dia}/${mes}/${año}`;
 
-        let modal = $('#verFicha');
+                let rentaFormatted = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'CLP' }).format(
+                    ficha.renta_mensual
+                );
 
-        modal.find('#nombre-apellido').text(ficha.nombre + ' ' + ficha.apellido);
-        modal.find('#info-rut').text(ficha.rut);
-        modal.find('#info-email').text(ficha.email);
-        modal.find('#info-telefono').text('+ 56 ' + ficha.telefono);
-        modal.find('#info-fecha-naci').text(fechaNaciFormatted);
-        modal.find('#info-edad').text(ficha.edad + ' AÑOS');
-        modal.find('#info-genero').text(ficha.genero.toUpperCase());
-        modal.find('#info-altura').text(ficha.altura + ' CM');
-        modal.find('#info-comuna').text(ficha.comuna.toUpperCase());
-        modal.find('#info-direccion').text(ficha.direccion.toUpperCase());
-        modal.find('#info-estudios-basicos').text(ficha.educacion_basica + '° BÁSICA');
-        modal.find('#info-estudios-medios').text(ficha.educacion_media + '° MEDIO');
-        modal.find('#info-anos-experiencia').text(ficha.anos_experiencia + ' AÑOS');
-        modal.find('#info-esta-trabajando').text(ficha.trabajando.toUpperCase());
-        modal.find('#info-renta-mensual').text(rentaFormatted);
+                $('#verFichaLabel').text('Información Ficha N° ' + ficha.id);
 
-        modal.modal('show');
+                let modal = $('#verFicha');
+
+                modal.find('#nombre-apellido').text(ficha.nombre + ' ' + ficha.apellido);
+                modal.find('#info-rut').text(ficha.rut);
+                modal.find('#info-email').text(ficha.email);
+                modal.find('#info-telefono').text('+ 56 ' + ficha.telefono);
+                modal.find('#info-fecha-naci').text(fechaNaciFormatted);
+                modal.find('#info-edad').text(ficha.edad + ' AÑOS');
+                modal.find('#info-genero').text(ficha.genero.toUpperCase());
+                modal.find('#info-altura').text(ficha.altura + ' CM');
+                modal.find('#info-comuna').text(ficha.comuna.toUpperCase());
+                modal.find('#info-direccion').text(ficha.direccion.toUpperCase());
+                modal.find('#info-estudios-basicos').text(ficha.educacion_basica + '° BÁSICA');
+                modal.find('#info-estudios-medios').text(ficha.educacion_media + '° MEDIO');
+                modal.find('#info-anos-experiencia').text(ficha.anos_experiencia + ' AÑOS');
+                modal.find('#info-esta-trabajando').text(ficha.trabajando.toUpperCase());
+                modal.find('#info-renta-mensual').text(rentaFormatted);
+
+                modal.modal('show');
+
+            },error: function(error) {
+                console.error(error);
+                Toast.fire({
+                    icon: 'error',
+                    title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al lista la ficha seleccionada. Por favor, inténtelo de nuevo.'
+                });
+            }
+
+        });
 
     });
 
@@ -381,24 +437,44 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                let fichasGuardadas = localStorage.getItem('fichas');
+                let url = 'http://capturador-social.test/api/index.php?action=eliminar';
 
-                // Si hay fichas almacenadas, convierte la cadena JSON a un array
-                let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
+                //AJAX para eliminar la ficha de la base de datos
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: { id: rowId },
+                    success: function(response) {
 
-                fichas.splice(rowId, 1);
+                        let data = JSON.parse(response);
+                        
+                        if(data.status == 'success'){
+                            
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.message
+                            });
 
-                let fichasJson = JSON.stringify(fichas);
+                            generateTable();
 
-                // Guardar el array de fichas actualizado en el almacenamiento local
-                localStorage.setItem('fichas', fichasJson);
+                        }else if(data.status == 'error'){
 
-                Toast.fire({
-                    icon: 'success',
-                    title: '¡Ficha eliminada con éxito!'
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message
+                            });
+
+                        }
+
+                    },error: function(error) {
+                        console.error(error);
+                        Toast.fire({
+                            icon: 'error',
+                            title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al eliminar la ficha. Por favor, inténtelo de nuevo.'
+                        });
+                    }
+
                 });
-
-                generateTable();
 
             }
         });
@@ -433,47 +509,63 @@ $(document).ready(function() {
 
         let rowId = $(this).data('editar');
 
-        let fichasGuardadas = localStorage.getItem('fichas');
+        let url = 'http://capturador-social.test/api/index.php?action=listar';
 
-        // Si hay fichas almacenadas, convierte la cadena JSON a un array
-        let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: { id: rowId },
+            success: function(response) {
 
-        let ficha = fichas[rowId];
+                let data = JSON.parse(response); 
 
-        let alturaFormatted = ficha.altura * 100;
+                let ficha = data[0];
 
-        mostrarAlturaEditar(alturaFormatted);
+                let alturaFormatted = ficha.altura * 100;
+                let renta_sin_punto = ficha.renta_mensual.toString().replace('.', '');
 
-        $('#editarFichaLabel').text('Editar Ficha N° ' + (rowId + 1));
-        $('#editar-ficha-id').val(rowId);
+                mostrarAlturaEditar(alturaFormatted);
 
-        let modal = $('#editarFicha');
+                $('#editarFichaLabel').text('Editar Ficha N° ' + ficha.id);
+                $('#editar-ficha-id').val(ficha.id);
 
-        modal.find('#editar-nombre').val(ficha.nombre);
-        modal.find('#editar-apellido').val(ficha.apellido);
-        modal.find('#editar-rut').val(ficha.rut);
-        modal.find('#editar_fecha_naci').val(ficha.fecha_naci);
-        modal.find('#editar-telefono').val(ficha.telefono);
-        modal.find('#editar-email').val(ficha.email);
-        modal.find('#editar-comuna').val(ficha.comuna);
-        modal.find('#editar-direccion').val(ficha.direccion);
-        modal.find('#editar_anos_experiencia').val(ficha.anos_experiencia);
-        modal.find('#editar-altura').val(alturaFormatted); 
-        modal.find('#editar_educacion_basica').val(ficha.educacion_basica);
-        modal.find('#editar_educacion_media').val(ficha.educacion_media);
-        modal.find('#editar-trabajando').val(ficha.trabajando);
-        modal.find('#editar_renta_mensual').val(ficha.renta_mensual);
+                let modal = $('#editarFicha');
 
-        // Verifica cuál opción de género fue seleccionada
-        if (ficha.genero === 'Femenino') {
-            modal.find('#editar-femenino').prop('checked', true);
-        } else if (ficha.genero === 'Masculino') {
-            modal.find('#editar-masculino').prop('checked', true);
-        } else if (ficha.genero === 'Otro') {
-            modal.find('#editar-otro').prop('checked', true);
-        }
+                modal.find('#editar-nombre').val(ficha.nombre);
+                modal.find('#editar-apellido').val(ficha.apellido);
+                modal.find('#editar-rut').val(ficha.rut);
+                modal.find('#editar_fecha_naci').val(ficha.fecha_naci);
+                modal.find('#editar-telefono').val(ficha.telefono);
+                modal.find('#editar-email').val(ficha.email);
+                modal.find('#editar-comuna').val(ficha.comuna);
+                modal.find('#editar-direccion').val(ficha.direccion);
+                modal.find('#editar_anos_experiencia').val(ficha.anos_experiencia);
+                modal.find('#editar-altura').val(alturaFormatted); 
+                modal.find('#editar_educacion_basica').val(ficha.educacion_basica);
+                modal.find('#editar_educacion_media').val(ficha.educacion_media);
+                modal.find('#editar-trabajando').val(ficha.trabajando);
+                modal.find('#editar_renta_mensual').val(renta_sin_punto);
 
-        modal.modal('show');
+                // Verifica cuál opción de género fue seleccionada
+                if (ficha.genero === 'Femenino') {
+                    modal.find('#editar-femenino').prop('checked', true);
+                } else if (ficha.genero === 'Masculino') {
+                    modal.find('#editar-masculino').prop('checked', true);
+                } else if (ficha.genero === 'Otro') {
+                    modal.find('#editar-otro').prop('checked', true);
+                }
+
+                modal.modal('show');
+
+            },error: function(error) {
+                console.error(error);
+                Toast.fire({
+                    icon: 'error',
+                    title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al editar la ficha seleccionada. Por favor, inténtelo de nuevo.'
+                });
+            }
+
+        });
 
     });
 
@@ -497,41 +589,50 @@ function mostrarAlturaEditar(valor) {
 //Todo::Funcion para generar la tabla del index con las fichas del localstorage
 function generateTable() {
 
-    let fichasGuardadas = localStorage.getItem('fichas');
+    let url = 'http://capturador-social.test/api/index.php?action=listar_todos';
 
-    // Si hay fichas almacenadas, convierte la cadena JSON a un array
-    let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
+    //AJAX para listar las fichas de la base de datos
+    $.ajax({
+        url: url,
+        type: 'POST',
+        success: function(response) {
 
-    //Destruir la tabla si ya existe
-    if ($.fn.DataTable.isDataTable('#fichas_table')) {
-        $('#fichas_table').DataTable().destroy();
-    }
+            let data = JSON.parse(response);
 
-    $('#fichas_table').DataTable({
-        data: fichas, 
-        language: spanish, 
-        columns: [ 
-            { 
-                data : null, 
-                className: 'text-center',
-                render: function(data, type, row, meta) { 
-                    return meta.row + 1; 
-                }
-            },
-            { data: 'rut' },
-            { data: 'nombre' },
-            { data: 'comuna' },
-            { data: 'email' },
-            { data: 'direccion' },
-            { data: 'telefono' },
-            {
-                data: null,
-                render: function(data, type, row, meta) {
-                    return generateButtons(meta.row);
-
-                }
+             //Destruir la tabla si ya existe
+            if ($.fn.DataTable.isDataTable('#fichas_table')) {
+                $('#fichas_table').DataTable().destroy();
             }
-        ]
+
+            $('#fichas_table').DataTable({
+                data: data, 
+                language: spanish, 
+                columns: [ 
+                    { data : 'id', className: 'text-center',},
+                    { data: 'rut' },
+                    { data: 'nombre' },
+                    { data: 'comuna' },
+                    { data: 'email' },
+                    { data: 'direccion' },
+                    { data: 'telefono' },
+                    {
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return generateButtons(data.id);
+
+                        }
+                    }
+                ]
+            });
+
+        },
+        error: function(error) {
+            console.error(error);
+            Toast.fire({
+                icon: 'error',
+                title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al listar las fichas. Por favor, inténtelo de nuevo.'
+            });
+        }
     });
 }
 
@@ -563,6 +664,7 @@ const spanish = {
 
 //Todo::Funcion para generar los botones de la tabla
 function generateButtons(rowId) {
+
     return '<div class="d-flex justify-content-around">' +
         '<a class="btn btn-warning btn-sm ver-ficha-btn" title="Ver Ficha" data-ver="'+rowId+'"><i class="fa-solid fa-eye text-white"></i></a>' +
         '<a class="btn btn-primary btn-sm editar-ficha-btn" title="Editar Ficha" data-editar="'+rowId+'"><i class="fa-solid fa-pen-to-square"></i></a>' +

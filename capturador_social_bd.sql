@@ -37,11 +37,11 @@ CREATE TABLE `fichas` (
   `comuna` varchar(100) DEFAULT NULL,
   `educacion_basica` int DEFAULT NULL,
   `educacion_media` int DEFAULT NULL,
-  `renta_mensual` decimal(10,2) DEFAULT NULL,
+  `renta_mensual` int DEFAULT NULL,
   `trabajando` varchar(5) NOT NULL,
   `anos_experiencia` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `fichas` (
 
 LOCK TABLES `fichas` WRITE;
 /*!40000 ALTER TABLE `fichas` DISABLE KEYS */;
-INSERT INTO `fichas` VALUES (1,'26.835.260-0','RICARDO','DIAZ','Masculino',1.62,'2024-05-08','986377907','rdiaz@gmail.com',0,'sadasd','Santiago',1,2,200000.00,'0',5),(2,'26.835.260-0','RICARDO','DIAZ','Masculino',1.60,'1999-01-16','986377907','rdiaz@gmail.com',25,'Av Irarrazaval 200','Providencia',7,4,2000000.00,'0',4),(3,'26.835.260-0','RICARDO','DIAZ','Masculino',1.39,'1999-01-23','986377907','rdiaz@gmail.com',25,'av irarrazxval','Providencia',3,3,20000.00,'0',4),(4,'26.835.260-0','RICARDO','DIAZ','Masculino',1.68,'1999-01-16','986377907','rdiaz@gmail.com',25,'av irarazval 200','Las Condes',1,2,200000.00,'0',4);
+INSERT INTO `fichas` VALUES (9,'26.835.260-0','RICARDO','DIAZ','Masculino',1.73,'1999-01-16','986377907','rdiaz@gmail.com',25,'Las condes 34','Las Condes',8,4,200000000,'Si',5);
 /*!40000 ALTER TABLE `fichas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-15 22:47:24
+-- Dump completed on 2024-05-16 16:20:06

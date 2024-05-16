@@ -3,13 +3,10 @@
 require_once __DIR__ . '/../config.php';
 
 /**
- * Función para eliminar una ficha por su id
- * @Param array $id
+ * Función para eliminar todos los registros de las fichas
  * @Return JSON
  */
-function eliminar($data){
-
-    $id = $data['id'];
+function eliminar_todos(){
 
     // Configuración de la base de datos
     global $servername, $username, $password, $database;
@@ -27,27 +24,18 @@ function eliminar($data){
         ];
     }
 
-    $query = "DELETE FROM fichas WHERE id = ?";
+    // Consulta para eliminar todos los registros de la tabla fichas
+    $query = "DELETE FROM fichas";
 
+    // Preparar la consulta
     if ($stmt = $db_connection->prepare($query)) {
-
-        // Vincular el parámetro
-        $stmt->bind_param("i", $id);
 
         // Ejecutar la consulta
         if ($stmt->execute()) {
-            // Verificar cuántas filas fueron afectadas
-            if ($stmt->affected_rows > 0) {
-                $res = [
-                    "status" => "success",
-                    "message" => "¡Ficha eliminada con éxito!"
-                ];
-            } else {
-                $res = [
-                    "status" => "error",
-                    "message" => "No se encontró ninguna ficha con el id proporcionado."
-                ];
-            }
+            $res = [
+                "status" => "success",
+                "message" => "¡Todas las fichas han sido eliminadas con éxito!"
+            ];
         } else {
             $res = [
                 "status" => "error",
@@ -59,17 +47,16 @@ function eliminar($data){
         $stmt->close();
 
     } else {
-
         $res = [
             "status" => "error",
             "message" => "Error en la preparación de la consulta: " . $db_connection->error
         ];
-        
     }
 
     // Cerrar la conexión
     $db_connection->close();
 
+    // Devolver la respuesta en formato JSON
     echo json_encode($res);
 }
 ?>
