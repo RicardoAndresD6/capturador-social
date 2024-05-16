@@ -116,28 +116,60 @@ $(document).ready(function() {
                 trabajando: formDataJSON['trabajando'],
                 anos_experiencia: formDataJSON['anos_experiencia'],
             };
-
-            let fichasGuardadas = localStorage.getItem('fichas');
-
-            // Si hay fichas almacenadas, convierte la cadena JSON a un array
-            let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
             
-            fichas.push(ficha);
-            
-            let fichasJson = JSON.stringify(fichas);
-            
-            // Guardar el array de fichas actualizado en el almacenamiento local
-            localStorage.setItem('fichas', fichasJson);
+            let url = 'http://capturador-social.test/api/index.php?action=crear';
 
-            Toast.fire({
-                icon: 'success',
-                title: '¡Ficha creada con éxito!'
+            //AJAX para guardar la ficha en la base de datos
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: ficha,
+                success: function(response) {
+
+                    let data = JSON.parse(response);
+
+                    if(data.status == 'success'){
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+
+                        generateTable();
+                        //Todo::Falta modifcar el generate table con la nueva info
+
+                    }else{
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.message
+                        });
+                    }
+
+                    modal.modal('hide'); 
+
+                },
+                error: function(error) {
+                    console.error(error);
+                    Toast.fire({
+                        icon: 'error',
+                        title: '¡Lo Sentimos! Ha ocurrido un error en el servicio al guardar la ficha. Por favor, inténtelo de nuevo.'
+                    });
+                }
             });
 
-            modal.modal('hide'); 
+            //Todo::Codigo Antiguo para guardar en el localstorage
+            // let fichasGuardadas = localStorage.getItem('fichas');
 
-            generateTable();
-        
+            // Si hay fichas almacenadas, convierte la cadena JSON a un array
+            // let fichas = fichasGuardadas ? JSON.parse(fichasGuardadas) : [];
+            
+            // fichas.push(ficha);
+            
+            // let fichasJson = JSON.stringify(fichas);
+            
+            // Guardar el array de fichas actualizado en el almacenamiento local
+            // localStorage.setItem('fichas', fichasJson);
+            //Todo::Fin del codigo antiguo
+
         }
 
     });
