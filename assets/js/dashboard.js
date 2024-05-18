@@ -224,9 +224,9 @@ function generateCardEdades(){
             }
         });
 
-        promedio_hombres = promedio_hombres / hombres;
-        promedio_mujeres = promedio_mujeres / mujeres;
-        promedio_otros = promedio_otros / otros;
+        promedio_hombres = hombres > 0 ? (promedio_hombres / hombres) : 0;
+        promedio_mujeres = mujeres > 0 ? (promedio_mujeres / mujeres) : 0;
+        promedio_otros = otros > 0 ? (promedio_otros / otros) : 0;
 
         $('#promedio-edad-hombres').html(promedio_hombres);
         $('#promedio-edad-mujeres').html(promedio_mujeres);
@@ -242,8 +242,8 @@ function generateCardRentas(){
     let fichas = JSON.parse(localStorage.getItem('fichas'));
 
     let total_renta = 0;
-    let max_renta = Number.MIN_SAFE_INTEGER;
-    let min_renta = Number.MAX_SAFE_INTEGER;
+    let max_renta = 0;
+    let min_renta = 0;
     let promedio_renta = 0;
 
     if (fichas) {
@@ -258,7 +258,7 @@ function generateCardRentas(){
 
         });
 
-        promedio_renta = total_renta / fichas.length;
+        promedio_renta = fichas.length > 0 ? (total_renta / fichas.length) : 0;
 
         max_renta_formated = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'CLP' }).format(
             max_renta
@@ -366,7 +366,7 @@ function generateCardExperiencia(){
 
         });
 
-        promedio_experiencia = total_experiencia / fichas.length;
+        promedio_experiencia = fichas.length > 0 ? (total_experiencia / fichas.length) : 0;
 
         $('#cant-anos-experiencia').html(promedio_experiencia);
 

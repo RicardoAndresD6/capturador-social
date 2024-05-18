@@ -599,6 +599,8 @@ function generateTable() {
 
             let data = JSON.parse(response);
 
+            localStorage.setItem('fichas', JSON.stringify(data));
+
              //Destruir la tabla si ya existe
             if ($.fn.DataTable.isDataTable('#fichas_table')) {
                 $('#fichas_table').DataTable().destroy();
